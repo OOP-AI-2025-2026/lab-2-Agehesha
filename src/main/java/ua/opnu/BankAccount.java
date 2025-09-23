@@ -1,24 +1,37 @@
 package ua.opnu;
 
 public class BankAccount {
-    String name;
-    double balance;
-    double transactionFee = 0.0;
+    private String name;
+    private double balance;
+    private double transactionFee = 0; // Default value is 0
 
-    // Deposit money (must be > 0)
-    void deposit(double amount) {
+    // Constructor
+    public BankAccount(String name, double balance) {
+        this.name = name;
+        this.balance = Math.max(balance, 0); // Balance cannot be negative
+    }
+
+    // Sets a new transaction fee
+    public void setTransactionFee(double fee) {
+        if (fee >= 0) {
+            this.transactionFee = fee;
+        }
+    }
+
+    // Deposits money into the account
+    public void deposit(double amount) {
         if (amount > 0) {
             balance += amount;
         }
     }
 
-    // Get current balance
-    double getBalance() {
+    // Returns current balance
+    public double getBalance() {
         return this.balance;
     }
 
-    // Withdraw money considering transactionFee
-    boolean withdraw(double amount) {
+    // Withdraws money (with transaction fee)
+    public boolean withdraw(double amount) {
         if (amount > 0 && balance >= amount + transactionFee) {
             balance -= (amount + transactionFee);
             return true;
@@ -26,11 +39,12 @@ public class BankAccount {
         return false;
     }
 
-    // Transfer money to another account
-    boolean transfer(BankAccount receiver, double amount) {
-        if (amount > 0 && balance >= amount + transactionFee) {
+    // Transfers money to another account (including transaction fee)
+    public boolean transfer(BankAccount receiver, double amount) {
+        if (receiver == null || amount <= 0) return false;
+        if (balance >= amount + transactionFee) {
             balance -= (amount + transactionFee);
-            receiver.balance += amount;
+            receiver.deposit(amount);
             return true;
         }
         return false;
