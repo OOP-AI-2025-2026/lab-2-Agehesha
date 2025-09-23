@@ -1,49 +1,44 @@
 package ua.opnu;
 
 public class BankAccount {
-    private String name;
-    private double balance;
-    private double transactionFee = 0; // Default value is 0
+    String name;
+    double balance;
+    double transactionFee;
 
-    // Constructor
-    public BankAccount(String name, double balance) {
+    BankAccount(String name, double balance) {
         this.name = name;
-        this.balance = Math.max(balance, 0); // Balance cannot be negative
+        this.balance = balance < 0 ? 0 : balance;
+        this.transactionFee = 0;
     }
 
-    // Sets a new transaction fee
-    public void setTransactionFee(double fee) {
+    void setTransactionFee(double fee) {
         if (fee >= 0) {
             this.transactionFee = fee;
         }
     }
 
-    // Deposits money into the account
-    public void deposit(double amount) {
+    void deposit(double amount) {
         if (amount > 0) {
-            balance += amount;
+            balance = balance + amount;
         }
     }
 
-    // Returns current balance
-    public double getBalance() {
-        return this.balance;
+    double getBalance() {
+        return balance;
     }
 
-    // Withdraws money (with transaction fee)
-    public boolean withdraw(double amount) {
+    boolean withdraw(double amount) {
         if (amount > 0 && balance >= amount + transactionFee) {
-            balance -= (amount + transactionFee);
+            balance = balance - (amount + transactionFee);
             return true;
         }
         return false;
     }
 
-    // Transfers money to another account (including transaction fee)
-    public boolean transfer(BankAccount receiver, double amount) {
+    boolean transfer(BankAccount receiver, double amount) {
         if (receiver == null || amount <= 0) return false;
         if (balance >= amount + transactionFee) {
-            balance -= (amount + transactionFee);
+            balance = balance - (amount + transactionFee);
             receiver.deposit(amount);
             return true;
         }
