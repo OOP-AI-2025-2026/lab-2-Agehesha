@@ -3,25 +3,36 @@ package ua.opnu;
 public class BankAccount {
     String name;
     double balance;
-    double transactionFee;
+    double transactionFee = 0.0;
 
+    // Deposit money to the account
     void deposit(double amount) {
-        // TODO: modify method body
-        balance = balance + amount;
+        if (amount > 0) {
+            balance = balance + amount;
+        }
     }
 
+    // Get current balance
     double getBalance() {
         return this.balance;
     }
 
+    // Withdraw money considering transaction fee
     boolean withdraw(double amount) {
-        // TODO: modify method body
-        balance = balance - amount;
-        return true;
+        if (amount > 0 && balance >= amount + transactionFee) {
+            balance = balance - (amount + transactionFee);
+            return true;
+        }
+        return false;
     }
 
+    // Transfer money to another account considering transaction fee
     boolean transfer(BankAccount receiver, double amount) {
-        // TODO: modify method body
+        if (amount > 0 && balance >= amount + transactionFee) {
+            balance = balance - (amount + transactionFee);
+            receiver.deposit(amount);
+            return true;
+        }
         return false;
     }
 }
