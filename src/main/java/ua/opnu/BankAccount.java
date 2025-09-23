@@ -1,35 +1,38 @@
 package ua.opnu;
 
+// ======== Клас Банк аккаунт ========
 public class BankAccount {
-    String name;
-    double balance;
-    double transactionFee = 0.0;
+    private String name;
+    private double balance;
+    private double transactionFee;
 
-    // Deposit money to the account
-    void deposit(double amount) {
+    public BankAccount(String name, double balance, double transactionFee) {
+        this.name = name;
+        this.balance = balance;
+        this.transactionFee = transactionFee;
+    }
+
+    public void deposit(double amount) {
         if (amount > 0) {
             balance = balance + amount;
         }
     }
 
-    // Get current balance
-    double getBalance() {
-        return this.balance;
+    public double getBalance() {
+        return balance;
     }
 
-    // Withdraw money considering transaction fee
-    boolean withdraw(double amount) {
-        if (amount > 0 && balance >= amount + transactionFee) {
-            balance = balance - (amount + transactionFee);
+    public boolean withdraw(double amount) {
+        double total = amount + transactionFee;
+        if (amount > 0 && balance >= total) {
+            balance = balance - total;
             return true;
         }
         return false;
     }
 
-    // Transfer money to another account considering transaction fee
-    boolean transfer(BankAccount receiver, double amount) {
-        if (amount > 0 && balance >= amount + transactionFee) {
-            balance = balance - (amount + transactionFee);
+    public boolean transfer(BankAccount receiver, double amount) {
+        if (this.withdraw(amount)) {
             receiver.deposit(amount);
             return true;
         }
