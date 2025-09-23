@@ -1,46 +1,81 @@
 package ua.opnu;
 
-
 public class TimeSpan {
 
-    // TODO: add class fields
+    private int hours;
+    private int minutes;
 
+    // Constructor
     TimeSpan(int hours, int minutes) {
-        // TODO: write constructor body
+        if (hours < 0 || minutes < 0 || minutes > 59) {
+            throw new IllegalArgumentException("Invalid hours or minutes");
+        }
+        this.hours = hours;
+        this.minutes = minutes;
     }
 
+    // Return only hours
     int getHours() {
-        return 0;
+        return hours;
     }
 
+    // Return only minutes
     int getMinutes() {
-        // TODO: write method body
-        return 0;
+        return minutes;
     }
 
+    // Add hours and minutes to the interval
     void add(int hours, int minutes) {
-        // TODO: write method body
+        if (hours < 0 || minutes < 0 || minutes > 59) {
+            throw new IllegalArgumentException("Invalid hours or minutes");
+        }
+        this.hours += hours;
+        this.minutes += minutes;
+        normalize();
     }
 
+    // Add another TimeSpan
     void addTimeSpan(TimeSpan timespan) {
-        // TODO: write method body
+        add(timespan.getHours(), timespan.getMinutes());
     }
 
+    // Return total hours as double
     double getTotalHours() {
-        // TODO: write method body
-        return 0;
+        return hours + minutes / 60.0;
     }
 
+    // Return total minutes
     int getTotalMinutes() {
-        // TODO: write method body
-        return 0;
+        return hours * 60 + minutes;
     }
 
+    // Subtract another TimeSpan
     void subtract(TimeSpan span) {
-        // TODO: write method body
+        int totalThis = getTotalMinutes();
+        int totalOther = span.getTotalMinutes();
+        if (totalOther > totalThis) {
+            throw new IllegalArgumentException("Cannot subtract a bigger timespan");
+        }
+        int diff = totalThis - totalOther;
+        hours = diff / 60;
+        minutes = diff % 60;
     }
 
+    // Scale the interval by factor
     void scale(int factor) {
-        // TODO: write method body
+        if (factor <= 0) {
+            throw new IllegalArgumentException("Factor must be > 0");
+        }
+        int total = getTotalMinutes() * factor;
+        hours = total / 60;
+        minutes = total % 60;
+    }
+
+    // Normalize minutes to always be < 60
+    private void normalize() {
+        if (minutes >= 60) {
+            hours += minutes / 60;
+            minutes = minutes % 60;
+        }
     }
 }
