@@ -1,46 +1,53 @@
 package ua.opnu;
 
-// ======== Клас Студент ========
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class that represents a student with name, year and courses.
+ */
 public class Student {
     private String name;
-    private int age;
-    private double grade;
+    private int year;
+    private List<String> courses;
 
-    public Student(String name, int age, double grade) {
-        if (name == null || name.isEmpty()) {
-            this.name = "Unknown";
-        } else {
-            this.name = name;
+    // Constructor
+    public Student(String name, int year) {
+        if (year < 1 || year > 4) {
+            throw new IllegalArgumentException("Year must be between 1 and 4");
         }
-        if (age < 0) {
-            this.age = 0;
-        } else {
-            this.age = age;
-        }
-        if (grade < 0 || grade > 100) {
-            this.grade = 0;
-        } else {
-            this.grade = grade;
-        }
+        this.name = name;
+        this.year = year;
+        this.courses = new ArrayList<>();
     }
 
+    // Adds a course to student's list
+    public void addCourse(String courseName) {
+        courses.add(courseName);
+    }
+
+    // Removes all courses
+    public void dropAll() {
+        courses.clear();
+    }
+
+    // Returns number of courses
+    public int getCourseCount() {
+        return courses.size();
+    }
+
+    // Returns student name
     public String getName() {
         return name;
     }
 
-    public int getAge() {
-        return age;
+    // Returns tuition fee (20000 per year)
+    public int getTuition() {
+        return year * 20000;
     }
 
-    public double getGrade() {
-        return grade;
-    }
-
-    public boolean isAdult() {
-        return age >= 18;
-    }
-
-    public boolean hasPassed() {
-        return grade >= 60;
+    // Returns study year
+    public int getYear() {
+        return year;
     }
 }
