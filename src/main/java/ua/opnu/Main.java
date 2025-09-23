@@ -1,25 +1,36 @@
 package ua.opnu;
 
-// ======== Тестування ========
 public class Main {
     public static void main(String[] args) {
-        // Student
-        Student s = new Student("Ivan", 20, 85);
-        System.out.println(s.getName() + " adult? " + s.isAdult());
-        System.out.println(s.getName() + " passed? " + s.hasPassed());
+        // === Test Student ===
+        Student st = new Student("Ivan", 2);
+        st.addCourse("Math");
+        st.addCourse("Programming");
 
-        // BankAccount
-        BankAccount a1 = new BankAccount("Alice", 1000, 5);
-        BankAccount a2 = new BankAccount("Bob", 500, 2);
+        System.out.println(st.getName() + ": number of courses - " + st.getCourseCount());
+        System.out.println(st.getName() + ": year - " + st.getYear());
+        System.out.println(st.getName() + ": tuition paid - " + st.getTuition());
 
-        a1.transfer(a2, 200);
-        System.out.println("Alice balance: " + a1.getBalance());
-        System.out.println("Bob balance: " + a2.getBalance());
+        // === Test BankAccount ===
+        BankAccount acc1 = new BankAccount();
+        acc1.name = "Alex";
+        acc1.deposit(1000);
+        acc1.transactionFee = 10;
 
-        // TimeSpan
+        BankAccount acc2 = new BankAccount();
+        acc2.name = "Maria";
+
+        acc1.transfer(acc2, 200);
+
+        System.out.println(acc1.name + " balance: " + acc1.getBalance());
+        System.out.println(acc2.name + " balance: " + acc2.getBalance());
+
+        // === Test TimeSpan ===
         TimeSpan t1 = new TimeSpan(2, 30);
         TimeSpan t2 = new TimeSpan(1, 45);
+
         t1.addTimeSpan(t2);
-        System.out.println("Total: " + t1.getHours() + "h " + t1.getMinutes() + "m");
+        System.out.println("t1 total minutes: " + t1.getTotalMinutes());
+        System.out.println("t1 total hours: " + t1.getTotalHours());
     }
 }
