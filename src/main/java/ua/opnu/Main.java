@@ -1,22 +1,25 @@
 package ua.opnu;
 
+// ======== Тестування ========
 public class Main {
     public static void main(String[] args) {
-        // Create a student object
-        Student st = new Student("Ivan Petrenko", 2);
+        // Student
+        Student s = new Student("Ivan", 20, 85);
+        System.out.println(s.getName() + " adult? " + s.isAdult());
+        System.out.println(s.getName() + " passed? " + s.hasPassed());
 
-        // Add some courses
-        st.addCourse("Mathematics");
-        st.addCourse("Programming");
-        st.addCourse("Physics");
+        // BankAccount
+        BankAccount a1 = new BankAccount("Alice", 1000, 5);
+        BankAccount a2 = new BankAccount("Bob", 500, 2);
 
-        // Print number of courses
-        System.out.println(st.getName() + ": number of courses - " + st.getCourseCount());
+        a1.transfer(a2, 200);
+        System.out.println("Alice balance: " + a1.getBalance());
+        System.out.println("Bob balance: " + a2.getBalance());
 
-        // Print year of study
-        System.out.println(st.getName() + ": year of study - " + st.getYear());
-
-        // Print tuition fee
-        System.out.println(st.getName() + ": tuition paid - " + st.getTuition());
+        // TimeSpan
+        TimeSpan t1 = new TimeSpan(2, 30);
+        TimeSpan t2 = new TimeSpan(1, 45);
+        t1.addTimeSpan(t2);
+        System.out.println("Total: " + t1.getHours() + "h " + t1.getMinutes() + "m");
     }
 }
