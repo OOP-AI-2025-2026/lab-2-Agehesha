@@ -1,81 +1,73 @@
 package ua.opnu;
 
+// ======== Клас Часовий інтервал ========
 public class TimeSpan {
-
     private int hours;
     private int minutes;
 
-    // Constructor
-    TimeSpan(int hours, int minutes) {
-        if (hours < 0 || minutes < 0 || minutes > 59) {
-            throw new IllegalArgumentException("Invalid hours or minutes");
+    public TimeSpan(int hours, int minutes) {
+        if (hours < 0) {
+            this.hours = 0;
+        } else {
+            this.hours = hours;
         }
-        this.hours = hours;
-        this.minutes = minutes;
+        if (minutes < 0 || minutes > 59) {
+            this.minutes = 0;
+        } else {
+            this.minutes = minutes;
+        }
     }
 
-    // Return only hours
-    int getHours() {
+    public int getHours() {
         return hours;
     }
 
-    // Return only minutes
-    int getMinutes() {
+    public int getMinutes() {
         return minutes;
     }
 
-    // Add hours and minutes to the interval
-    void add(int hours, int minutes) {
-        if (hours < 0 || minutes < 0 || minutes > 59) {
-            throw new IllegalArgumentException("Invalid hours or minutes");
+    public void add(int h, int m) {
+        if (h >= 0 && m >= 0) {
+            hours = hours + h;
+            minutes = minutes + m;
+            hours = hours + minutes / 60;
+            minutes = minutes % 60;
         }
-        this.hours += hours;
-        this.minutes += minutes;
-        normalize();
     }
 
-    // Add another TimeSpan
-    void addTimeSpan(TimeSpan timespan) {
-        add(timespan.getHours(), timespan.getMinutes());
+    public void addTimeSpan(TimeSpan t) {
+        add(t.getHours(), t.getMinutes());
     }
 
-    // Return total hours as double
-    double getTotalHours() {
+    public double getTotalHours() {
         return hours + minutes / 60.0;
     }
 
-    // Return total minutes
-    int getTotalMinutes() {
+    public int getTotalMinutes() {
         return hours * 60 + minutes;
     }
 
-    // Subtract another TimeSpan
-    void subtract(TimeSpan span) {
-        int totalThis = getTotalMinutes();
-        int totalOther = span.getTotalMinutes();
-        if (totalOther > totalThis) {
-            throw new IllegalArgumentException("Cannot subtract a bigger timespan");
+    public void subtract(TimeSpan t) {
+        int total1 = getTotalMinutes();
+        int total2 = t.getTotalMinutes();
+        if (total1 >= total2) {
+            int diff = total1 - total2;
+            hours = diff / 60;
+            minutes = diff % 60;
+        } else {
+            hours = 0;
+            minutes = 0;
         }
-        int diff = totalThis - totalOther;
-        hours = diff / 60;
-        minutes = diff % 60;
     }
 
-    // Scale the interval by factor
-    void scale(int factor) {
-        if (factor <= 0) {
-            throw new IllegalArgumentException("Factor must be > 0");
-        }
-        int total = getTotalMinutes() * factor;
-        hours = total / 60;
-        minutes = total % 60;
-    }
-
-    // Normalize minutes to always be < 60
-    private void normalize() {
-        if (minutes >= 60) {
-            hours += minutes / 60;
-            minutes = minutes % 60;
+    public void scale(int factor) {
+        if (factor > 0) {
+            int total = getTotalMinutes() * factor;
+            hours = total / 60;
+            minutes = total % 60;
+        } else {
+            hours = 0;
+            minutes = 0;
         }
     }
 }
