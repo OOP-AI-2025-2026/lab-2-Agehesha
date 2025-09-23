@@ -3,9 +3,6 @@ package ua.opnu;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Class that represents a student with name, year and courses.
- */
 public class Student {
     private String name;
     private int year;
